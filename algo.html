@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module algo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>algo</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cmatth%5Cpycharmprojects%5Cai-pass%5Calgo.py">c:\users\matth\pycharmprojects\ai-pass\algo.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="PIL.Image.html">PIL.Image</a><br>
+<a href="colors.html">colors</a><br>
+</td><td width="25%" valign=top><a href="pandas.html">pandas</a><br>
+<a href="pygame.html">pygame</a><br>
+</td><td width="25%" valign=top><a href="pyperclip.html">pyperclip</a><br>
+<a href="random.html">random</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-cosine_sim"><strong>cosine_sim</strong></a>(lijst, top_hoeveel, input_user)</dt><dd><tt>algoritme&nbsp;cosine&nbsp;similarity&nbsp;met&nbsp;de&nbsp;combinatie&nbsp;van&nbsp;kleuren<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lijst&nbsp;(list):&nbsp;input&nbsp;van&nbsp;de&nbsp;gebruiker&nbsp;in&nbsp;lijst&nbsp;van&nbsp;1&nbsp;en&nbsp;0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;top_hoeveel&nbsp;(int):&nbsp;de&nbsp;top&nbsp;hoeveel&nbsp;je&nbsp;wilt&nbsp;in&nbsp;combinatie<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_user&nbsp;(tuple):&nbsp;de&nbsp;gebruiker&nbsp;input&nbsp;in&nbsp;een&nbsp;tuple&nbsp;om&nbsp;te&nbsp;verwijderen<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;top_dic_keys&nbsp;(list):&nbsp;return&nbsp;de&nbsp;top&nbsp;combinaties&nbsp;van&nbsp;kleuren[0&nbsp;en&nbsp;1]en&nbsp;in&nbsp;een&nbsp;list</tt></dd></dl>
+ <dl><dt><a name="-cosine_sim_score"><strong>cosine_sim_score</strong></a>(lijst, top_hoeveel, input_user)</dt><dd><tt>algoritme&nbsp;cosine&nbsp;similarity&nbsp;met&nbsp;de&nbsp;percentage&nbsp;van&nbsp;kleuren<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lijst&nbsp;(list):&nbsp;input&nbsp;van&nbsp;de&nbsp;gebruiker&nbsp;in&nbsp;lijst&nbsp;van&nbsp;1&nbsp;en&nbsp;0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;top_hoeveel&nbsp;(int):&nbsp;de&nbsp;top&nbsp;hoeveel&nbsp;je&nbsp;wilt&nbsp;in&nbsp;combinatie<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_user&nbsp;(tuple):&nbsp;de&nbsp;gebruiker&nbsp;input&nbsp;in&nbsp;een&nbsp;tuple&nbsp;om&nbsp;te&nbsp;verwijderen<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;top_dic_values&nbsp;(list):&nbsp;return&nbsp;de&nbsp;top&nbsp;combinaties&nbsp;met&nbsp;percentage&nbsp;van&nbsp;kleuren</tt></dd></dl>
+ <dl><dt><a name="-create_image"><strong>create_image</strong></a>(colors, size)</dt><dd><tt>om&nbsp;een&nbsp;size&nbsp;x&nbsp;size&nbsp;image&nbsp;te&nbsp;genereren&nbsp;met&nbsp;gegeven&nbsp;kleuren&nbsp;maar&nbsp;random&nbsp;plek<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;colors&nbsp;(list):&nbsp;list&nbsp;van&nbsp;value&nbsp;in&nbsp;rbg&nbsp;value&nbsp;waarde<br>
+&nbsp;&nbsp;&nbsp;&nbsp;size&nbsp;(int):&nbsp;width&nbsp;en&nbsp;heigt&nbsp;in&nbsp;pixel&nbsp;van&nbsp;de&nbsp;generated&nbsp;kleuren<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;image&nbsp;(image):&nbsp;een&nbsp;image&nbsp;die&nbsp;gesaved&nbsp;word</tt></dd></dl>
+ <dl><dt><a name="-create_image2"><strong>create_image2</strong></a>(colors, size)</dt><dd><tt>om&nbsp;een&nbsp;size&nbsp;x&nbsp;size&nbsp;image&nbsp;te&nbsp;genereren&nbsp;met&nbsp;gegeven&nbsp;kleuren&nbsp;maar&nbsp;random&nbsp;plek<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;colors&nbsp;(list):&nbsp;list&nbsp;van&nbsp;value&nbsp;in&nbsp;rbg&nbsp;value&nbsp;waarde<br>
+&nbsp;&nbsp;&nbsp;&nbsp;size&nbsp;(int):&nbsp;width&nbsp;en&nbsp;heigt&nbsp;in&nbsp;pixel&nbsp;van&nbsp;de&nbsp;generated&nbsp;kleuren<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;image&nbsp;(image):&nbsp;een&nbsp;image&nbsp;die&nbsp;gesaved&nbsp;word</tt></dd></dl>
+ <dl><dt><a name="-data_check"><strong>data_check</strong></a>()</dt><dd><tt>kijkt&nbsp;of&nbsp;de&nbsp;dataset&nbsp;wel&nbsp;echt&nbsp;werkt<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;None<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;True&nbsp;(bool):&nbsp;als&nbsp;er&nbsp;geen&nbsp;[0,0,...]&nbsp;in&nbsp;zit&nbsp;en&nbsp;als&nbsp;die&nbsp;niet&nbsp;leeg&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;False&nbsp;(bool):&nbsp;als&nbsp;er&nbsp;wel&nbsp;[0,0,...]&nbsp;en&nbsp;of&nbsp;leeg&nbsp;is</tt></dd></dl>
+ <dl><dt><a name="-get_key"><strong>get_key</strong></a>(val)</dt><dd><tt>voor&nbsp;rbg&nbsp;value&nbsp;naar&nbsp;text&nbsp;uit&nbsp;dictionary&nbsp;colors.py<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val&nbsp;(tuple):&nbsp;value&nbsp;in&nbsp;rbg&nbsp;value&nbsp;waarde<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;(str):&nbsp;de&nbsp;key&nbsp;van&nbsp;de&nbsp;gegeven&nbsp;value</tt></dd></dl>
+ <dl><dt><a name="-list_to_clipboard"><strong>list_to_clipboard</strong></a>(output_list)</dt><dd><tt>copy&nbsp;de&nbsp;gelikte&nbsp;combinations&nbsp;in&nbsp;clip&nbsp;board<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;output_list&nbsp;(list):&nbsp;lijst&nbsp;die&nbsp;je&nbsp;wilt&nbsp;kopiëren<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;None</tt></dd></dl>
+ <dl><dt><a name="-list_to_color"><strong>list_to_color</strong></a>(tuple)</dt><dd><tt>om&nbsp;van&nbsp;de&nbsp;keys&nbsp;uit&nbsp;dictionary&nbsp;naar&nbsp;rgb&nbsp;code&nbsp;in&nbsp;list<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tuple&nbsp;(tuple):&nbsp;combinatie&nbsp;van&nbsp;0&nbsp;en&nbsp;1&nbsp;in&nbsp;een&nbsp;tuple<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list&nbsp;(list):&nbsp;een&nbsp;lijst&nbsp;met&nbsp;waardes&nbsp;van&nbsp;rgb&nbsp;value</tt></dd></dl>
+ <dl><dt><a name="-most_picks"><strong>most_picks</strong></a>(combination_nummer)</dt><dd><tt>telt&nbsp;hoevaak&nbsp;kleur&nbsp;combinatie&nbsp;is&nbsp;voorgekomen<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;combination_nummer&nbsp;(str):&nbsp;de&nbsp;combinatie&nbsp;met&nbsp;0&nbsp;en&nbsp;1&nbsp;in&nbsp;een&nbsp;tuple&nbsp;als&nbsp;string<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;c[combination_nummer]&nbsp;(int):&nbsp;hoevaak&nbsp;het&nbsp;voorkomt</tt></dd></dl>
+ <dl><dt><a name="-pilImageToSurface"><strong>pilImageToSurface</strong></a>(pilImage)</dt><dd><tt>voor&nbsp;PIL&nbsp;image&nbsp;naar&nbsp;pygame<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pilImage&nbsp;(png&nbsp;file):&nbsp;PIL&nbsp;image<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;image&nbsp;(pygame.image.fromstring):&nbsp;image&nbsp;om&nbsp;te&nbsp;kunnen&nbsp;gebruiken&nbsp;in&nbsp;pygame</tt></dd></dl>
+ <dl><dt><a name="-sqrt"><strong>sqrt</strong></a>(x, /)</dt><dd><tt>Return&nbsp;the&nbsp;square&nbsp;root&nbsp;of&nbsp;x.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>colors</strong> = [(0, 0, 0), (128, 128, 128), (192, 192, 192), (255, 255, 255), (139, 69, 19), (255, 0, 0), (255, 150, 0), (255, 215, 0), (245, 245, 220), (255, 255, 0), (0, 128, 0), (64, 224, 208), (0, 128, 128), (0, 0, 255), (238, 130, 238), (128, 0, 128), (255, 105, 180)]<br>
+<strong>df</strong> =      black  grey  silver  white  brown  red  ora... 1       0       0     0
+
+[279 rows x 17 columns]<br>
+<strong>df_list</strong> = [[0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0], [1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0], [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], [1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0], ...]</td></tr></table>
+</body></html>
