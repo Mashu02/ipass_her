@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageOps
 import random
+from math import hypot
 
 def random_circle(colors):
     """random circle generate
@@ -23,7 +24,7 @@ def random_circle(colors):
         draw.ellipse(shape, fill=color)
         n += 1
     color = "black"
-    border = (10, 10, 10, 10)
+    border = (12, 12, 12, 12)
     test = ImageOps.expand(im, border=border, fill=color)
     test.save('circle.png')
 
@@ -51,11 +52,11 @@ def random_rect(colors):
         n += 1
 
     color = "black"
-    border = (10, 10, 10, 10)
+    border = (12, 12, 12, 12)
     test = ImageOps.expand(im, border=border, fill=color)
     test.save('rect.png')
 
-def random_horizontal_vertical(colors):
+def random_horizontal(colors):
     im = Image.new('RGB', (1000, 1000), (255, 255, 255))
     draw = ImageDraw.Draw(im)
     random.shuffle(colors)
@@ -72,23 +73,43 @@ def random_horizontal_vertical(colors):
         y2 += amount
 
     color = "black"
-    border = (10, 10, 10, 10)
+    border = (12, 12, 12, 12)
     test = ImageOps.expand(im, border=border, fill=color)
     test.save('horizontal.png')
 
 
-def random_diagonal():
+def random_diagonal(colors):
+    IMG_WIDTH, IMG_HEIGHT = 1000, 1000
+    DIAG = round(hypot(IMG_WIDTH, IMG_HEIGHT))
+
+    img = Image.new('RGB', (DIAG, DIAG), (255, 255, 255))
+    draw = ImageDraw.Draw(img)
+    random.shuffle(colors)
+
+    length = len(colors)  # Number of lines.
+    line_width = DIAG / length  # Width of each.
+    difx = line_width / 2
+    x1, y1 = difx, 0
+    x2, y2 = difx, DIAG
+
+    for color in colors:
+        endpoints = (x1, y1), (x2, y2)
+        draw.line(endpoints, fill=color, width=round(line_width))
+        x1 += line_width
+        x2 += line_width
+
     color = "black"
-    border = (10, 10, 10, 10)
-    colorimage = Image.open('horizontal.png')
-    out = colorimage.rotate(45)
-    out2 = colorimage.rotate(-45)
-    test1 = ImageOps.expand(out, border=border, fill=color)
-    test2 = ImageOps.expand(out2, border=border, fill=color)
-    test1.save('diagonal.png')
+    border = (12, 12, 12, 12)
+    img = img.rotate(-45, resample=Image.Resampling.BICUBIC)
+    img2 = img.rotate(90, resample=Image.Resampling.BICUBIC)
+    difx, dify = (DIAG - IMG_WIDTH) // 2, (DIAG - IMG_HEIGHT) // 2
+    img = img.crop((difx, dify, difx + IMG_WIDTH, dify + IMG_HEIGHT))
+    img2 = img2.crop((difx, dify, difx + IMG_WIDTH, dify + IMG_HEIGHT))
+    test = ImageOps.expand(img, border=border, fill=color)
+    test2 = ImageOps.expand(img2, border=border, fill=color)
+    test.save('diagonal.png')
     test2.save('diagonal2.png')
 
-random_diagonal()
 def random_vertical(colors):
     IMG_WIDTH, IMG_HEIGHT = 1000, 1000
 
@@ -109,7 +130,6 @@ def random_vertical(colors):
         x2 += amount
 
     color = "black"
-    border = (10, 10, 10, 10)
+    border = (12, 12, 12, 12)
     test = ImageOps.expand(img, border=border, fill=color)
     test.save('vertical.png')
-

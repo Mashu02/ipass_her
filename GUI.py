@@ -40,7 +40,8 @@ def main_menu_loop():
         algo.draw_text('Your liked combinations:', pygame.font.SysFont(None, 50), c.black, screen, 1065, 35)
         y_pos = 92
         y_pos_color_code = 92
-
+        input_rgb = algo.list_to_color(clicked_button.values())
+        input_hsv = algo.list_to_color_hsv(clicked_button.values())
         #muis positie
         mouse = pygame.mouse.get_pos()
 
@@ -233,9 +234,19 @@ def main_menu_loop():
 
         elif button_generate.collidepoint((mouse)):
             if click and len(clicked_button_list) != 0:
+                random_generate.random_horizontal(input_rgb)
+                random_generate.random_vertical(input_rgb)
+                random_generate.random_circle(input_rgb)
+                random_generate.random_rect(input_rgb)
+                random_generate.random_diagonal(input_rgb)
                 generate()
         elif button_feedback.collidepoint((mouse)):
             if click and len(clicked_button_list) != 0:
+                random_generate.random_horizontal(input_rgb)
+                random_generate.random_vertical(input_rgb)
+                random_generate.random_circle(input_rgb)
+                random_generate.random_rect(input_rgb)
+                random_generate.random_diagonal(input_rgb)
                 feedback()
         elif button_clear.collidepoint((mouse)):
             if click:
@@ -335,71 +346,64 @@ def generate():
     """
     running = True
     while running:
-        y_pos = 185
+
+        y_pos = 60
+        mouse = pygame.mouse.get_pos()
         screen.fill((240,255,255))
-        algo.draw_text('generated', pygame.font.SysFont(None, 45), c.black, screen, 835, 50)
+        algo.draw_text('generated', pygame.font.SysFont(None, 30), c.black, screen, 835, 5)
         algo.create_image(clicked_button_list_codes, 640)
 
         input_list_user = (list(clicked_button.values()))
+        input_rgb = algo.list_to_color(clicked_button.values())
         top_count = algo.most_picks(str(input_list_user))
-        algo.draw_text(str(top_count) + " votes", pygame.font.SysFont(None, 50), c.black, screen, 75, 100)
+        algo.draw_text(str(top_count) + " votes", pygame.font.SysFont(None, 30), c.black, screen, 75, 25)
 
         for single_color in clicked_button_list:
-            algo.draw_text("-" + single_color, pygame.font.SysFont(None, 50), c.black, screen, 75, y_pos)
-            y_pos += 45
+            algo.draw_text("-" + single_color, pygame.font.SysFont(None, 35), c.black, screen, 75, y_pos)
+            y_pos += 25
 
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    running = False
+        button_generate = pygame.Rect(50, y_pos + 25, 150, 100)
+        button_generate_outline = pygame.Rect(47, y_pos + 22, 157, 106)
 
-        pygame.display.update()
-        mainClock.tick(25)
+        pygame.draw.rect(screen, c.black, button_generate_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_generate)
 
-def feedback():
-    """feedback menu scherm loop
-    Args:
-        None
-    Returns:
-        None
-    """
-    running = True
-    while running:
-        rgb_list_input = []
-        mouse = pygame.mouse.get_pos()
-        screen.fill((240,255,255))
-        algo.draw_text('feedback', font, c.black, screen, 20, 20)
-
-        input_hsv = algo.list_to_color_hsv(clicked_button.values())
-        input_rgb = algo.list_to_color(clicked_button.values())
-        sorted(input_hsv, key=lambda x: x[0])
-        print(input_rgb)
-
-        #input_rgb moet
-        random_generate.random_horizontal_vertical(input_rgb)
+        #plaats de pngs, kijk dc voor hoe eruit zien
         horizontal = pygame.image.load('horizontal.png')
-        horizontal1 = pygame.transform.scale(horizontal, (200,200))
-        screen.blit(horizontal1, (500,500))
+        horizontal1 = pygame.transform.scale(horizontal, (300,300))
+        screen.blit(horizontal1, (250,50))
 
+        vertical = pygame.image.load('vertical.png')
+        vertical1 = pygame.transform.scale(vertical, (300, 300))
+        screen.blit(vertical1, (735, 50))
 
+        diagonal = pygame.image.load('diagonal.png')
+        diagonal1 = pygame.transform.scale(diagonal, (300, 300))
+        screen.blit(diagonal1, (1220, 50))
 
+        diagonal2 = pygame.image.load('diagonal2.png')
+        diagonal12 = pygame.transform.scale(diagonal2, (300, 300))
+        screen.blit(diagonal12, (250, 535))
 
-        #rgb kan in de algo.random.... voor input en return het plaatje
-        #dan open het plaatje en buttons
+        circle = pygame.image.load('circle.png')
+        circle1 = pygame.transform.scale(circle,(300, 300))
+        screen.blit(circle1, (735, 535))
 
-        #rgb voor images
-        #hsv voor berekenen
-        # if len(input) == 1:
-        #
-        # else:
-        #
-        # angle = algo.calc_angle(input)
-        # print(angle)
+        rect = pygame.image.load('rect.png')
+        rect1 = pygame.transform.scale(rect, (300, 300))
+        screen.blit(rect1, (1220, 535))
+
+        if button_generate.collidepoint(mouse):
+            if click:
+                random_generate.random_horizontal(input_rgb)
+                random_generate.random_vertical(input_rgb)
+                random_generate.random_circle(input_rgb)
+                random_generate.random_rect(input_rgb)
+                random_generate.random_diagonal(input_rgb)
+
 
         click = False
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -410,8 +414,101 @@ def feedback():
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
+
         pygame.display.update()
-        mainClock.tick(1)
+        mainClock.tick(60)
+
+def feedback():
+    """feedback menu scherm loop
+    Args:
+        None
+    Returns:
+        None
+    """
+    running = True
+    while running:
+        y_pos = 60
+        rgb_list_input = []
+        mouse = pygame.mouse.get_pos()
+        screen.fill((240,255,255))
+        algo.draw_text('feedback', font, c.black, screen, 20, 20)
+
+        button_generate = pygame.Rect(50, y_pos + 25, 150, 100)
+        button_generate_outline = pygame.Rect(47, y_pos + 22, 157, 106)
+
+        pygame.draw.rect(screen, c.black, button_generate_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_generate)
+
+        input_hsv = algo.list_to_color_hsv(clicked_button.values())
+        input_rgb = algo.list_to_color(clicked_button.values())
+        #van klein naar groot sorteren voor berekenen v1,v2 en v1,v3
+        sorted(input_hsv, key=lambda x: x[0])
+
+        input_angle = (algo.calc_angle(input_hsv))
+        z = algo.get_higest_sim_in_hsv(input_angle)
+        print(z)
+
+        #de hsv naar rgb en dan generaten met de recommendation
+
+
+
+        #rgb voor images
+        #hsv voor berekenen
+        # if len(input) == 1:
+        #
+        # else:
+        #
+        # angle = algo.calc_angle(input)
+        # print(angle)
+
+        # plaats de pngs, kijk dc voor hoe eruit zien
+        horizontal = pygame.image.load('horizontal.png')
+        horizontal1 = pygame.transform.scale(horizontal, (300, 300))
+        screen.blit(horizontal1, (250, 50))
+
+        vertical = pygame.image.load('vertical.png')
+        vertical1 = pygame.transform.scale(vertical, (300, 300))
+        screen.blit(vertical1, (735, 50))
+
+        diagonal = pygame.image.load('diagonal.png')
+        diagonal1 = pygame.transform.scale(diagonal, (300, 300))
+        screen.blit(diagonal1, (1220, 50))
+
+        diagonal2 = pygame.image.load('diagonal2.png')
+        diagonal12 = pygame.transform.scale(diagonal2, (300, 300))
+        screen.blit(diagonal12, (250, 535))
+
+        circle = pygame.image.load('circle.png')
+        circle1 = pygame.transform.scale(circle, (300, 300))
+        screen.blit(circle1, (735, 535))
+
+        rect = pygame.image.load('rect.png')
+        rect1 = pygame.transform.scale(rect, (300, 300))
+        screen.blit(rect1, (1220, 535))
+
+        if button_generate.collidepoint(mouse):
+            if click:
+                random_generate.random_horizontal(input_rgb)
+                random_generate.random_vertical(input_rgb)
+                random_generate.random_circle(input_rgb)
+                random_generate.random_rect(input_rgb)
+                random_generate.random_diagonal(input_rgb)
+
+        click = False
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        pygame.display.update()
+        mainClock.tick(60)
 
 #voor pydoc generate
 if __name__ == '__main__':

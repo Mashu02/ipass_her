@@ -5,8 +5,10 @@ import pygame
 import colors as c
 import pyperclip
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image
 import random
+import colorsys
+
 #kleuren van algoritme naar rgb codes
 colors = [(0, 0, 0), (128, 128, 128), (192, 192, 192), (255, 255, 255), (139, 69, 19), (255, 0, 0)
           , (255, 150, 0), (255, 215, 0), (245, 245, 220), (255, 255, 0), (0, 128, 0), (64, 224, 208), (0, 128, 128)
@@ -18,6 +20,7 @@ colors_in_hsv = [[0, 0.0, 0.0], [0, 0.0, 50.2], [0, 0.0, 75.3], [0, 0.0, 100.0],
 
 df = pd.read_csv('data_full_full.csv', sep=';')
 df_list = df.values.tolist()
+
 
 
 def get_key(val):
@@ -75,6 +78,8 @@ def list_to_color(tuple):
         list (list): een lijst met waardes van rgb value
     """
     return [color for keep, color in zip(tuple, colors) if keep]
+
+
 
 def list_to_color_hsv(tuple):
     """om van de keys uit dictionary naar hsv code in list
@@ -296,6 +301,19 @@ def rgb_to_hsb(lijst_van_rgb):
     v = mx*100
     return [h, s, v]
 
+
+def hsb_to_rgb(lijst_van_hsv):
+    h = lijst_van_hsv[0] / 360
+    s = lijst_van_hsv[1] / 100
+    v = lijst_van_hsv[2] / 100
+    z = colorsys.hsv_to_rgb(h,s,v)
+    h1 = round(z[0] * 255)
+    s1 = round(z[1] * 255)
+    v1 = round(z[2] * 255)
+    return h1,s1,v1
+
+#print(hsb_to_rgb([120,90,46]))
+
 def calc_angle(lijst_van_hsv_values):
     """om de hoek te berekenen met verschillende hsv waardes
 
@@ -308,12 +326,14 @@ def calc_angle(lijst_van_hsv_values):
     lst = []
     counter = 1
 
-    main = np.array(lijst_van_hsv_values[0])
+    main = (lijst_van_hsv_values[0])
     while counter != len(lijst_van_hsv_values):
-        y = abs(main - np.array(lijst_van_hsv_values[counter]))
+        y = [abs(a_i - b_i) for a_i, b_i in zip(main, lijst_van_hsv_values[counter])]
         lst.append(y)
         counter += 1
-    return np.array(lst)
+    return lst
+
+
 
 def top_votes(input_GUI_list):
     lst = []
@@ -333,3 +353,116 @@ def top_votes(input_GUI_list):
     return list(count.keys())
 
 
+def whole_data_in_hsv():
+    lst = []
+    for nul_one_combo in df_list:
+        z = tuple(nul_one_combo)
+        y = list_to_color_hsv(z)
+        lst.append(y)
+    return lst
+
+def angle_whole_data(lst):
+    lsta = []
+    for single_hsv_combo in lst:
+        z = calc_angle(single_hsv_combo)
+        lsta.append(z)
+    return lsta
+
+
+def data_clean(input, whole_data_angles):
+    lst = []
+    for x in whole_data_angles:
+        if len(input) == len(x):
+            lst.append(x)
+        else:
+            pass
+    return lst
+
+def data_index_check(input, whole_data_angles):
+    lst = []
+    for x in whole_data_angles:
+        if len(input) + 1 == len(x):
+            lst.append(x)
+        else:
+            pass
+    return lst
+
+def cosine_2(v1,v2):
+    combination_with_cosim = {}
+    c = 0
+    while c != len(v2):
+        for x in v2[c]:
+            sum = 0
+            sumA = 0
+            sumB = 0
+            for i, j in zip(x, v1):
+                sum += i * j
+                sumA += i * i
+                sumB += j * j
+            cossim = sum / ((sqrt(sumA)) * (sqrt(sumB)))
+            combination_with_cosim[tuple(x)] = cossim
+            c += 1
+    return combination_with_cosim
+
+def cosine_3(v1,v2):
+    combination_with_cosim = {}
+    for x in v2:
+        sum = 0
+        sumA = 0
+        sumB = 0
+        for i, j in zip(x, v1):
+            sum += i * j
+            sumA += i * i
+            sumB += j * j
+        cossim = sum / ((sqrt(sumA)) * (sqrt(sumB)))
+        combination_with_cosim[tuple(x)] = cossim
+    return combination_with_cosim
+
+def dict_highest(dict):
+    find_max = list(max(dict,key=dict.get))
+    return [find_max]
+
+def dict_high(dict):
+    find_max = list(max(dict,key=dict.get))
+    return find_max
+
+def get_higest_sim_in_hsv(angle):
+    lst = whole_data_in_hsv()
+    whole_data_angles = angle_whole_data(lst)
+    data = data_clean(angle,whole_data_angles)
+    data2 = data_index_check(angle, lst)
+    dictionary = (cosine_2(angle[0],data))
+    index = data.index(dict_highest(dictionary))
+    return data2[index]
+
+#print(get_higest_sim_in_hsv([[120, 89.8, 45.89999999999999]]))
+
+def get_higest_sim_in_hsv_2(angle):
+    combos = []
+    input2 = angle[0] + angle[1]
+    lst = whole_data_in_hsv()
+    whole_data_angles = angle_whole_data(lst)
+    data = data_clean(angle, whole_data_angles)
+    data2 = data_index_check(angle, lst)
+    for combo in data:
+        combos.append(combo[0] + combo[1])
+    dictionary = cosine_3(input2, combos)
+    index = combos.index(dict_high(dictionary))
+    return data2[index]
+
+#print(get_higest_sim_in_hsv_2(calc_angle([[0,100,100],[120,80,80],[240,80,80]])))
+
+def get_higest_sim_in_hsv_3(angle):
+    combos = []
+    input2 = angle[0] + angle[1] + angle[2]
+    lst = whole_data_in_hsv()
+    whole_data_angles = angle_whole_data(lst)
+    data = data_clean(angle, whole_data_angles)
+    data2 = data_index_check(angle, lst)
+    for combo in data:
+        combos.append(combo[0] + combo[1]+ combo[2])
+    dictionary = cosine_3(input2, combos)
+    index = combos.index(dict_high(dictionary))
+    return data2[index]
+
+print(get_higest_sim_in_hsv_3(calc_angle([[0,100,100],[120,80,80],[240,80,80],[0,80,80]])))
