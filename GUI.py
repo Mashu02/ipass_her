@@ -912,8 +912,14 @@ def harmony():
                 random_generate.random_rect(list_rgb)
                 random_generate.random_diagonal(list_rgb)
 
-
-
+        if button_tetradic.collidepoint(mouse):
+            if click and len(input_hsv) == 1:
+                list_rgb = random_generate.tetradic(input_hsv)
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
 
         if button_generate.collidepoint(mouse):
             if click:

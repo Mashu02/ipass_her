@@ -285,4 +285,18 @@ def triadic_2(hsv_colors_list):
         lst2.append(rgb)
     return lst2
 
-print(triadic_2([[180,100,100],[1,100,100]]))
+#print(triadic_2([[180,100,100],[1,100,100]]))
+
+
+def tetradic(hsv_colors_list):
+    lst = []
+    plus_thirdy = hsv_colors_list[0][0] + 30
+    if plus_thirdy > 360:
+        plus_thirdy -= 360
+    lst.append([plus_thirdy,hsv_colors_list[0][1],hsv_colors_list[0][2]])
+    comp_thirdy = complementary(lst)
+    x = complementary(hsv_colors_list)
+    main_list = comp_thirdy + x
+    return main_list
+
+#print(tetradic([[350,100,100]]))
