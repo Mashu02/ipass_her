@@ -365,6 +365,7 @@ def get_higest_sim_in_hsv(angle):
     index = data.index(lists)
     return data2[index]
 
+#print(get_higest_sim_in_hsv([[0, 0.0, 50.2]]))
 
 def get_higest_sim_in_hsv_feedback(angle, cosine_waarde):
     lst = whole_data_in_hsv()
@@ -380,13 +381,43 @@ def get_higest_sim_in_hsv_feedback(angle, cosine_waarde):
     index = data.index(lists)
     return data2[index]
 
-#black brown
+#black brown white
 #print(get_higest_sim_in_hsv_feedback([[0, 0.0, 50.2]], 0.8448290436470253))
-#0.9370117172209129
-#0.8474100196006801
-#0.8448290436470253
 
+def get_higest_sim_in_hsv_feedback_2(angle, cosine_waarde):
+    lst_1 = []
+    combos = []
+    input2 = angle[0] + angle[1]
+    lst = whole_data_in_hsv()
+    whole_data_angles = angle_whole_data(lst)
+    data = data_clean(angle,whole_data_angles) #data is de angle
+    for combo in data:
+        combos.append(combo[0] + combo[1])
 
+    dictionary = (cosine_3(input2,combos))
+
+    #getal tussen 0-1 van sim score
+    #kijk welke key die sim score heeft
+    keys = [k for k, v in dictionary.items() if v == cosine_waarde]
+    lists = [list(x) for x in keys]
+    lists_new = lists[0]
+    length = len(lists_new)
+    mid = length // 2
+    split = lists_new[:mid]
+    split2 = lists_new[mid:]
+    split_together = []
+    split_together.append(split)
+    split_together.append(split2)
+    index = data.index(split_together)
+    pre_return = combos[index]
+    mid_pre = len(pre_return) // 2
+    first_mid_pre = pre_return[:mid_pre]
+    second_mid_pre = pre_return[mid_pre:]
+    lst_1.append(first_mid_pre)
+    lst_1.append(second_mid_pre)
+    return lst_1
+
+#print(get_higest_sim_in_hsv_feedback_2([[0, 0.0, 50.2], [0, 0.0, 75.3]], 0.9924749053145441))
 
 def sort_dictionary_value(angle):
     lst = whole_data_in_hsv()
@@ -404,7 +435,29 @@ def sort_dictionary_value(angle):
         dictionary_in_list_sorted.remove(0.9999999999999999)
     return dictionary_in_list_sorted
 
-print(sort_dictionary_value([[60, 10.2, 96.1]]))
+#print(sort_dictionary_value([[60, 10.2, 96.1]]))
+
+def sort_dictionary_value_input_2(angle):
+    combos = []
+    input2 = angle[0] + angle[1]
+    lst = whole_data_in_hsv()
+    whole_data_angles = angle_whole_data(lst)
+    data = data_clean(angle, whole_data_angles)
+    for combo in data:
+        combos.append(combo[0] + combo[1])
+    dictionary = cosine_3(input2, combos)
+    sorted_d = dict(sorted(dictionary.items(), key=operator.itemgetter(1), reverse=True))
+    dictionary_in_list_sorted = list(sorted_d.values())
+    dictionary_in_list_sorted = list(dict.fromkeys(dictionary_in_list_sorted))
+    if 1 in dictionary_in_list_sorted:
+        dictionary_in_list_sorted.remove(1)
+    if 0 in dictionary_in_list_sorted:
+        dictionary_in_list_sorted.remove(0)
+    if 0.9999999999999999 in dictionary_in_list_sorted:
+        dictionary_in_list_sorted.remove(0.9999999999999999)
+    return dictionary_in_list_sorted
+
+#print(sort_dictionary_value_input_2([[0, 0.0, 50.2], [0, 0.0, 75.3]]))
 
 def get_higest_sim_in_hsv_2(angle):
     combos = []
