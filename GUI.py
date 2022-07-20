@@ -409,15 +409,11 @@ def feedback():
         #van klein naar groot sorteren voor berekenen v1,v2 en v1,v3
         sorted(input_hsv, key=lambda x: x[0])
 
-        #moet nu nog 2 3 combi in feedback, als meer dan 5 color dan misschien random of niks
-
-        #wat die nu print zijn de hsv color codes die return moeten in de random generate image
-        #moet nog converten en dan generaten
+        #moet nu nog  3 combi in feedback, als meer dan 5 color dan misschien random of niks
 
         #color harmony page
 
         #randomly genrated, same style, same colors enz
-
 
 
         #button generate
@@ -661,7 +657,6 @@ def generate():
         if button_like.collidepoint(mouse):
             if click:
                 liked_color_combinations.append(input_rgb)
-
 
         click = False
 
