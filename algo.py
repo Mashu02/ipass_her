@@ -8,6 +8,7 @@ import numpy as np
 from PIL import Image
 import random
 import colorsys
+import operator
 
 #kleuren van algoritme naar rgb codes
 colors = [(0, 0, 0), (128, 128, 128), (192, 192, 192), (255, 255, 255), (139, 69, 19), (255, 0, 0)
@@ -226,7 +227,7 @@ def calc_angle(lijst_van_hsv_values):
         counter += 1
     return lst
 
-#print(calc_angle([[300,100,50.2],[330,58.8,100]]))
+#print(calc_angle([[0,100,100],[120,80,80],[240,80,80]]))
 
 def top_votes(input_GUI_list):
     lst = []
@@ -273,7 +274,7 @@ def top_votes_keys(input_GUI_list):
         full_list_combo_sorted.append(x[1])
     return full_list_combo_sorted
 
-#print(top_votes([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]))
+#print(top_votes_keys([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]))
 
 def whole_data_in_hsv():
     lst = []
@@ -353,17 +354,27 @@ def get_higest_sim_in_hsv(angle):
     whole_data_angles = angle_whole_data(lst)
     data = data_clean(angle,whole_data_angles) #data is de angle
     data2 = data_index_check(angle, lst) #data2 zijn de 2 hsb waardes
-
     dictionary = (cosine_2(angle[0],data))
     sort_dic = sorted(set(dictionary.values()))[-2]
     keys = [k for k, v in dictionary.items() if v == sort_dic]
     lists = [list(x) for x in keys]
     index = data.index(lists)
-
     return data2[index]
 
 #purple pink
 #print(get_higest_sim_in_hsv([[30, 41.2, 49.8]]))
+
+#eerst laten werken voordat mooi maken, dit is voor beter
+def sort_dictionary(angle, count):
+    lst = whole_data_in_hsv()
+    whole_data_angles = angle_whole_data(lst)
+    data = data_clean(angle,whole_data_angles) #data is de angle
+    data2 = data_index_check(angle, lst) #data2 zijn de 2 hsb waardes
+    dictionary = (cosine_2(angle[0],data))
+    sorted_d = dict(sorted(dictionary.items(), key=operator.itemgetter(1), reverse=True))
+    sorted_d.popitem()
+    print(sorted_d)
+#sort_dictionary([[30, 41.2, 49.8]], 1)
 
 def get_higest_sim_in_hsv_2(angle):
     combos = []
@@ -372,15 +383,13 @@ def get_higest_sim_in_hsv_2(angle):
     whole_data_angles = angle_whole_data(lst)
     data = data_clean(angle, whole_data_angles)
     data2 = data_index_check(angle, lst)
-    data2.remove(angle)
     for combo in data:
         combos.append(combo[0] + combo[1])
     dictionary = cosine_3(input2, combos)
     index = combos.index(dict_high(dictionary))
-
     return data2[index]
 
-#print(get_higest_sim_in_hsv_2(calc_angle([[0,100,100],[120,80,80],[240,80,80]])))
+#print(get_higest_sim_in_hsv_2([[120, 20, 20], [150, 20, 20]]))
 
 def get_higest_sim_in_hsv_3(angle):
     combos = []
@@ -389,7 +398,6 @@ def get_higest_sim_in_hsv_3(angle):
     whole_data_angles = angle_whole_data(lst)
     data = data_clean(angle, whole_data_angles)
     data2 = data_index_check(angle, lst)
-    data2.remove(angle)
     for combo in data:
         combos.append(combo[0] + combo[1]+ combo[2])
     dictionary = cosine_3(input2, combos)

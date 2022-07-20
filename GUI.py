@@ -23,6 +23,8 @@ clicked_button_list = []
 clicked_button_list_codes = []
 liked_color_combinations = []
 color_name_liked_combo = []
+list_count = []
+
 
 
 def main_menu_loop():
@@ -249,20 +251,21 @@ def main_menu_loop():
                 sorted(input_hsv, key=lambda x: x[0])
 
                 input_angle = (algo.calc_angle(input_hsv))
-                count = 0
 
+                #1 kleur, top votes
                 if len(input_hsv) == 1:
                     list_of_zero_one_top = algo.top_votes(input_list_user)
-                    single_color_return_rgb = algo.list_to_color(list_of_zero_one_top[count])
+                    single_color_return_rgb = algo.list_to_color(list_of_zero_one_top[0])
                     random_generate.random_horizontal(single_color_return_rgb)
                     random_generate.random_vertical(single_color_return_rgb)
                     random_generate.random_circle(single_color_return_rgb)
                     random_generate.random_rect(single_color_return_rgb)
                     random_generate.random_diagonal(single_color_return_rgb)
+
+                #2 kleuren, cosine sim
                 if len(input_angle) == 1:
                     list_rgb = []
                     z = algo.get_higest_sim_in_hsv(input_angle)
-                    print(z)
                     rgb = algo.hsb_to_rgb(z[0])
                     rgb2 = algo.hsb_to_rgb(z[1])
                     list_rgb.append(rgb)
@@ -272,6 +275,7 @@ def main_menu_loop():
                     random_generate.random_circle(list_rgb)
                     random_generate.random_rect(list_rgb)
                     random_generate.random_diagonal(list_rgb)
+
                 if len(input_angle) == 2:
                     list_rgb = []
                     z = algo.get_higest_sim_in_hsv(input_angle)
@@ -285,8 +289,8 @@ def main_menu_loop():
 
                 if len(input_angle) == 3:
                     z = algo.get_higest_sim_in_hsv_3(input_angle)
-
                 feedback()
+
         elif button_clear.collidepoint((mouse)):
             if click:
                 liked_color_combinations.clear()
@@ -375,6 +379,154 @@ def main_menu_loop():
 
         pygame.display.update()
         mainClock.tick(25)
+
+def feedback():
+    """feedback menu scherm loop
+    Args:
+        None
+    Returns:
+        None
+    """
+    running = True
+    while running:
+        y_pos = 60
+        mouse = pygame.mouse.get_pos()
+        screen.fill((240, 255, 255))
+        algo.draw_text('Feedback', pygame.font.SysFont(None, 30), c.black, screen, 835, 5)
+        list_name_colors = []
+        input_list_user = (list(clicked_button.values()))
+        input_rgb = algo.list_to_color(clicked_button.values())
+        input_hsv = algo.list_to_color_hsv(clicked_button.values())
+        #van klein naar groot sorteren voor berekenen v1,v2 en v1,v3
+        sorted(input_hsv, key=lambda x: x[0])
+
+        #moet nu nog 2 3 combi in feedback, als meer dan 5 color dan misschien random of niks
+
+        #wat die nu print zijn de hsv color codes die return moeten in de random generate image
+        #moet nog converten en dan generaten
+
+        #color harmony page
+
+        #NEXT TOP BUTTON moet dan wat doen met de count in feedback en dan moet je wel opnieuw generaten
+        #gewoon button if click count += 1
+
+        #randomly genrated, same style, same colors enz
+
+
+
+        #button generate
+        button_generate = pygame.Rect(50, y_pos + 125, 150, 100)
+        button_generate_outline = pygame.Rect(47, y_pos + 122, 157, 106)
+        pygame.draw.rect(screen, c.black, button_generate_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_generate)
+
+        #button like
+        button_like = pygame.Rect(50, y_pos + 250, 150, 100)
+        button_like_outline = pygame.Rect(47, y_pos + 247, 157, 106)
+        pygame.draw.rect(screen, c.black, button_like_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_like)
+
+        #button next
+        button_next = pygame.Rect(50, y_pos + 375, 150, 100)
+        button_next_outline = pygame.Rect(47, y_pos + 372, 157, 106)
+        pygame.draw.rect(screen, c.black, button_next_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_next)
+
+        algo.draw_text('Generate again', pygame.font.SysFont(None, 27), c.black, screen, 55, y_pos + 165)
+        algo.draw_text('Save', pygame.font.SysFont(None, 35), c.black, screen, 95, y_pos + 285)
+        algo.draw_text('Next', pygame.font.SysFont(None, 35), c.black, screen, 95, y_pos + 415)
+
+        if len(input_hsv) == 1:
+            count = len(list_count)
+            list_of_zero_one_top = algo.top_votes(input_list_user)
+            single_color_return_rgb = algo.list_to_color(list_of_zero_one_top[count])
+            how_many_votes = algo.top_votes_keys(input_list_user)
+            algo.draw_text(str(how_many_votes[count]) + " Votes", pygame.font.SysFont(None, 30), c.black, screen, 75, y_pos - 25)
+            returned_colors_in_rgb = single_color_return_rgb
+            for return_color_in_rgb in returned_colors_in_rgb:
+                list_name_colors.append(algo.get_key(return_color_in_rgb))
+            for single_color in list_name_colors:
+                algo.draw_text("-" + single_color, pygame.font.SysFont(None, 35), c.black, screen, 75, y_pos)
+                y_pos += 25
+            if button_next.collidepoint(mouse):
+                if click:
+                    list_count.append("1")
+
+        if len(input_hsv) == 2:
+            list_rgb = []
+            count = len(list_count)
+            input_angle = (algo.calc_angle(input_hsv))
+            z = algo.get_higest_sim_in_hsv(input_angle)
+            for x in z:
+                list_rgb.append(algo.hsb_to_rgb(x))
+            print(list_rgb)
+
+
+
+        # plaats de pngs, kijk dc voor hoe eruit zien
+        horizontal = pygame.image.load('horizontal.png')
+        horizontal1 = pygame.transform.scale(horizontal, (300, 300))
+        screen.blit(horizontal1, (250, 50))
+
+        vertical = pygame.image.load('vertical.png')
+        vertical1 = pygame.transform.scale(vertical, (300, 300))
+        screen.blit(vertical1, (735, 50))
+
+        diagonal = pygame.image.load('diagonal.png')
+        diagonal1 = pygame.transform.scale(diagonal, (300, 300))
+        screen.blit(diagonal1, (1220, 50))
+
+        diagonal2 = pygame.image.load('diagonal2.png')
+        diagonal12 = pygame.transform.scale(diagonal2, (300, 300))
+        screen.blit(diagonal12, (250, 535))
+
+        circle = pygame.image.load('circle.png')
+        circle1 = pygame.transform.scale(circle, (300, 300))
+        screen.blit(circle1, (735, 535))
+
+        rect = pygame.image.load('rect.png')
+        rect1 = pygame.transform.scale(rect, (300, 300))
+        screen.blit(rect1, (1220, 535))
+        input_angle = (algo.calc_angle(input_hsv))
+
+        if button_generate.collidepoint(mouse):
+            if click and len(input_hsv) == 1:
+                random_generate.random_horizontal(single_color_return_rgb)
+                random_generate.random_vertical(single_color_return_rgb)
+                random_generate.random_circle(single_color_return_rgb)
+                random_generate.random_rect(single_color_return_rgb)
+                random_generate.random_diagonal(single_color_return_rgb)
+            if click and len(input_hsv) == 2:
+                list_rgb = []
+                z = algo.get_higest_sim_in_hsv(input_angle)
+                for x in z:
+                    list_rgb.append(algo.hsb_to_rgb(x))
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+
+        if button_like.collidepoint(mouse):
+            if click:
+                liked_color_combinations.append(single_color_return_rgb)
+                algo.draw_text('Saved!', pygame.font.SysFont(None, 50), c.black, screen, 800, 435)
+
+        click = False
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        pygame.display.update()
+        mainClock.tick(60)
 
 def generate():
     """generate menu scherm loop
@@ -468,132 +620,7 @@ def generate():
         pygame.display.update()
         mainClock.tick(60)
 
-def feedback():
-    """feedback menu scherm loop
-    Args:
-        None
-    Returns:
-        None
-    """
-    running = True
-    while running:
-        y_pos = 60
-        mouse = pygame.mouse.get_pos()
-        screen.fill((240, 255, 255))
-        algo.draw_text('Feedback', pygame.font.SysFont(None, 30), c.black, screen, 835, 5)
-        list_name_colors = []
-        input_list_user = (list(clicked_button.values()))
-        input_rgb = algo.list_to_color(clicked_button.values())
 
-
-        input_hsv = algo.list_to_color_hsv(clicked_button.values())
-        input_rgb = algo.list_to_color(clicked_button.values())
-        #van klein naar groot sorteren voor berekenen v1,v2 en v1,v3
-        sorted(input_hsv, key=lambda x: x[0])
-
-        #moet nu nog 2 3 combi in feedback, als meer dan 5 color dan misschien random of niks
-
-        #color harmony page
-
-        #NEXT TOP BUTTON moet dan wat doen met de count in feedback en dan moet je wel opnieuw generaten
-        #gewoon button if click count += 1
-
-        #randomly genrated, same style, same colors enz
-        if len(input_hsv) == 1:
-            count = 0
-            list_of_zero_one_top = algo.top_votes(input_list_user)
-            single_color_return_rgb = algo.list_to_color(list_of_zero_one_top[count])
-            how_many_votes = algo.top_votes_keys(input_list_user)
-            algo.draw_text(str(how_many_votes[0]) + " Votes", pygame.font.SysFont(None, 30), c.black, screen, 75, 25)
-            returned_colors_in_rgb = single_color_return_rgb
-            for return_color_in_rgb in returned_colors_in_rgb:
-                list_name_colors.append(algo.get_key(return_color_in_rgb))
-            for single_color in list_name_colors:
-                algo.draw_text("-" + single_color, pygame.font.SysFont(None, 35), c.black, screen, 75, y_pos)
-                y_pos += 25
-        if len(input_hsv) == 2:
-            count = 0
-
-
-        #button generate
-        button_generate = pygame.Rect(50, y_pos + 25, 150, 100)
-        button_generate_outline = pygame.Rect(47, y_pos + 22, 157, 106)
-        pygame.draw.rect(screen, c.black, button_generate_outline)
-        pygame.draw.rect(screen, (211, 211, 211), button_generate)
-
-        #button like
-        button_like = pygame.Rect(50, y_pos + 150, 150, 100)
-        button_like_outline = pygame.Rect(47, y_pos + 147, 157, 106)
-        pygame.draw.rect(screen, c.black, button_like_outline)
-        pygame.draw.rect(screen, (211, 211, 211), button_like)
-
-        algo.draw_text('Generate again', pygame.font.SysFont(None, 27), c.black, screen, 55, y_pos + 65)
-        algo.draw_text('Save', pygame.font.SysFont(None, 35), c.black, screen, 95, y_pos + 185)
-        # plaats de pngs, kijk dc voor hoe eruit zien
-
-        horizontal = pygame.image.load('horizontal.png')
-        horizontal1 = pygame.transform.scale(horizontal, (300, 300))
-        screen.blit(horizontal1, (250, 50))
-
-        vertical = pygame.image.load('vertical.png')
-        vertical1 = pygame.transform.scale(vertical, (300, 300))
-        screen.blit(vertical1, (735, 50))
-
-        diagonal = pygame.image.load('diagonal.png')
-        diagonal1 = pygame.transform.scale(diagonal, (300, 300))
-        screen.blit(diagonal1, (1220, 50))
-
-        diagonal2 = pygame.image.load('diagonal2.png')
-        diagonal12 = pygame.transform.scale(diagonal2, (300, 300))
-        screen.blit(diagonal12, (250, 535))
-
-        circle = pygame.image.load('circle.png')
-        circle1 = pygame.transform.scale(circle, (300, 300))
-        screen.blit(circle1, (735, 535))
-
-        rect = pygame.image.load('rect.png')
-        rect1 = pygame.transform.scale(rect, (300, 300))
-        screen.blit(rect1, (1220, 535))
-        input_angle = (algo.calc_angle(input_hsv))
-        list_rgb = []
-        z = algo.get_higest_sim_in_hsv(input_angle)
-        for x in z:
-            list_rgb.append(algo.hsb_to_rgb(x))
-        if button_generate.collidepoint(mouse):
-            if click and len(input_hsv) == 1:
-                random_generate.random_horizontal(single_color_return_rgb)
-                random_generate.random_vertical(single_color_return_rgb)
-                random_generate.random_circle(single_color_return_rgb)
-                random_generate.random_rect(single_color_return_rgb)
-                random_generate.random_diagonal(single_color_return_rgb)
-            if click and len(input_hsv) == 2:
-                random_generate.random_horizontal(list_rgb)
-                random_generate.random_vertical(list_rgb)
-                random_generate.random_circle(list_rgb)
-                random_generate.random_rect(list_rgb)
-                random_generate.random_diagonal(list_rgb)
-
-        #DE IMAGE RANDOM WERKT DUS MOET NOG DE SAVE FIXEN EN CHECK BOVEN NOG MEER
-
-        if button_like.collidepoint(mouse):
-            if click:
-                liked_color_combinations.append(single_color_return_rgb)
-
-        click = False
-
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    running = False
-            if event.type == MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
-
-        pygame.display.update()
-        mainClock.tick(60)
 
 #voor pydoc generate
 if __name__ == '__main__':
