@@ -297,7 +297,19 @@ def main_menu_loop():
                     random_generate.random_diagonal(list_rgb)
 
                 if len(input_angle) == 3:
+                    list_rgb = []
                     z = algo.get_higest_sim_in_hsv_3(input_angle)
+                    rgb = algo.hsb_to_rgb(z[0])
+                    rgb2 = algo.hsb_to_rgb(z[1])
+                    rgb3 = algo.hsb_to_rgb(z[2])
+                    list_rgb.append(rgb)
+                    list_rgb.append(rgb2)
+                    list_rgb.append(rgb3)
+                    random_generate.random_horizontal(list_rgb)
+                    random_generate.random_vertical(list_rgb)
+                    random_generate.random_circle(list_rgb)
+                    random_generate.random_rect(list_rgb)
+                    random_generate.random_diagonal(list_rgb)
                 feedback()
 
         elif button_clear.collidepoint((mouse)):
@@ -409,12 +421,10 @@ def feedback():
         #van klein naar groot sorteren voor berekenen v1,v2 en v1,v3
         sorted(input_hsv, key=lambda x: x[0])
 
-        #moet nu nog  3 combi in feedback, als meer dan 5 color dan misschien random of niks
-
-        #color harmony page
+        #color harmony page bij generate
 
         #randomly genrated, same style, same colors enz
-
+        #kijk dc voor wat nog doen
 
         #button generate
         button_generate = pygame.Rect(50, y_pos + 125, 150, 100)
@@ -520,6 +530,37 @@ def feedback():
                 if click:
                     list_count.append("1")
 
+        if len(input_hsv) == 4:
+            list_rgb = []
+            list_on_screen = []
+            count = len(list_count)
+            input_angle = (algo.calc_angle(input_hsv))
+            list_cosine_scores = algo.sort_dictionary_value_input_3(input_angle)
+            cosine_score = round(list_cosine_scores[count], 2)
+            algo.draw_text(str(cosine_score) + " angle similarity", pygame.font.SysFont(None, 25), c.black, screen, 55, y_pos - 25)
+
+            z = algo.get_higest_sim_in_hsv_feedback_3(input_angle, list_cosine_scores[count])
+            print(z)
+
+            for x in z:
+                list_rgb.append(algo.hsb_to_rgb(x))
+
+            for rgb_code in list_rgb:
+                keys = [k for k, v in c.color_with_rgb.items() if v == rgb_code]
+                list_on_screen.append(keys)
+
+            new_list_on_screen = list(chain.from_iterable(list_on_screen))
+            for single_color in new_list_on_screen:
+                algo.draw_text("-" + single_color, pygame.font.SysFont(None, 35), c.black, screen, 75, y_pos)
+                y_pos += 25
+
+            if button_like.collidepoint(mouse):
+                if click:
+                    liked_color_combinations.append(list_rgb)
+                    algo.draw_text('Saved!', pygame.font.SysFont(None, 50), c.black, screen, 800, 435)
+            if button_next.collidepoint(mouse):
+                if click:
+                    list_count.append("1")
 
         # plaats de pngs, kijk dc voor hoe eruit zien
         horizontal = pygame.image.load('horizontal.png')
@@ -561,6 +602,12 @@ def feedback():
                 random_generate.random_rect(list_rgb)
                 random_generate.random_diagonal(list_rgb)
             if click and len(input_hsv) == 3:
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+            if click and len(input_hsv) == 4:
                 random_generate.random_horizontal(list_rgb)
                 random_generate.random_vertical(list_rgb)
                 random_generate.random_circle(list_rgb)
