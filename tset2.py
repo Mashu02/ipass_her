@@ -35,7 +35,28 @@ def top_votes(input_GUI_list):
         full_list_combo_sorted.append(x[0])
     return full_list_combo_sorted
 
-print(top_votes(input_GUI_list))
+def top_votes_keys(input_GUI_list):
+    lst = []
+    full_list_combo_sorted = []
+    how_many_1 = input_GUI_list.count(1)
+    for single_combo in df_list:
+        check_2 = [x + y for x, y in zip(input_GUI_list, single_combo)]
+        if int(2) in check_2 and how_many_1 == check_2.count(2):
+            lst.append(single_combo)
+    for dupe in lst:
+        if dupe == input_GUI_list:
+            lst.remove(dupe)
+    if how_many_1 == 1:
+        pass
+    else:
+        lst.remove(input_GUI_list)
+    count = Counter(tuple(item) for item in lst)
+    y = (count.most_common())
+    for x in y:
+        full_list_combo_sorted.append(x[1])
+    return full_list_combo_sorted
+
+#print(top_votes_keys(input_GUI_list))
 
 def rgb_to_hsb(lijst_van_rgb):
     lst = []
@@ -74,11 +95,12 @@ def calc_angle(lijst_van_hsv_values):
         counter += 1
     return np.array(lst)
 
+#def rgb_to_zero_one():
+
+
+
 #print(calc_angle([[60, 10.2, 96.1], [60, 100.0, 100.0]]))
 
-#aan input werken
-#gui veradneren
-#MOET NOG MET 3 KLEUREN
 
 #voor complementary -180 of +180
 #triad +150 en dan -150, je hebt dan 3
