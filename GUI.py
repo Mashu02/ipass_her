@@ -666,8 +666,15 @@ def generate():
         pygame.draw.rect(screen, c.black, button_like_outline)
         pygame.draw.rect(screen, (211, 211, 211), button_like)
 
+        button_harmony = pygame.Rect(50, y_pos + 275, 150, 100)
+        button_harmony_outline = pygame.Rect(47, y_pos + 272, 157, 106)
+
+        pygame.draw.rect(screen, c.black, button_harmony_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_harmony)
+
         algo.draw_text('Generate again', pygame.font.SysFont(None, 27), c.black, screen, 55, y_pos + 65)
         algo.draw_text('Save', pygame.font.SysFont(None, 35), c.black, screen, 95, y_pos + 185)
+        algo.draw_text('Harmony', pygame.font.SysFont(None, 35), c.black, screen, 70, y_pos + 310)
 
         #plaats de pngs, kijk dc voor hoe eruit zien
         horizontal = pygame.image.load('horizontal.png')
@@ -704,6 +711,9 @@ def generate():
         if button_like.collidepoint(mouse):
             if click:
                 liked_color_combinations.append(input_rgb)
+        if button_harmony.collidepoint(mouse):
+            if click and len(input_rgb) <= 3:
+                harmony()
 
         click = False
 
@@ -721,7 +731,204 @@ def generate():
         pygame.display.update()
         mainClock.tick(60)
 
+def harmony():
+    """feedback menu scherm loop
+    Args:
+        None
+    Returns:
+        None
+    """
+    running = True
+    while running:
+        y_pos = 20
+        mouse = pygame.mouse.get_pos()
+        click = False
+        screen.fill((240, 255, 255))
+        algo.draw_text('Harmony', pygame.font.SysFont(None, 30), c.black, screen, 835, 5)
 
+        input_hsv = algo.list_to_color_hsv(clicked_button.values())
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        button_generate = pygame.Rect(840, 725, 150, 100)
+        button_generate_outline = pygame.Rect(837, 722, 157, 106)
+        pygame.draw.rect(screen, c.black, button_generate_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_generate)
+
+        button_like = pygame.Rect(600, 725, 150, 100)
+        button_like_outline = pygame.Rect(597, 722, 157, 106)
+        pygame.draw.rect(screen, c.black, button_like_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_like)
+
+
+        button_complementary = pygame.Rect(50, 100, 150, 100)
+        button_complementary_outline = pygame.Rect(47, 97, 157, 106)
+        pygame.draw.rect(screen, c.black, button_complementary_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_complementary)
+
+        button_monochromatic = pygame.Rect(50, 225, 150, 100)
+        button_monochromatic_outline = pygame.Rect(47, 222, 157, 106)
+        pygame.draw.rect(screen, c.black, button_monochromatic_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_monochromatic)
+
+        button_analogous = pygame.Rect(50, 350, 150, 100)
+        button_analogous_outline = pygame.Rect(47, 347, 157, 106)
+        pygame.draw.rect(screen, c.black, button_analogous_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_analogous)
+
+        button_split_complementary = pygame.Rect(50, 475, 150, 100)
+        button_split_complementary_outline = pygame.Rect(47, 472, 157, 106)
+        pygame.draw.rect(screen, c.black, button_split_complementary_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_split_complementary)
+
+        button_triadic = pygame.Rect(50, 600, 150, 100)
+        button_triadic_outline = pygame.Rect(47, 597, 157, 106)
+        pygame.draw.rect(screen, c.black, button_triadic_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_triadic)
+
+        button_tetradic = pygame.Rect(50, 725, 150, 100)
+        button_tetradic_outline = pygame.Rect(47, 722, 157, 106)
+        pygame.draw.rect(screen, c.black, button_tetradic_outline)
+        pygame.draw.rect(screen, (211, 211, 211), button_tetradic)
+
+        algo.draw_text('Complementary', pygame.font.SysFont(None, 25), c.black, screen, 50, 100)
+        algo.draw_text('Monochromatic', pygame.font.SysFont(None, 25), c.black, screen, 50, 225)
+        algo.draw_text('Analogous', pygame.font.SysFont(None, 25), c.black, screen, 50, 350)
+        algo.draw_text('Split complementary', pygame.font.SysFont(None, 23), c.black, screen, 50, 475)
+        algo.draw_text('Triadic', pygame.font.SysFont(None, 25), c.black, screen, 50, 600)
+        algo.draw_text('Tetradic', pygame.font.SysFont(None, 25), c.black, screen, 50, 725)
+
+        algo.draw_text('Generate again', pygame.font.SysFont(None, 27), c.black, screen, 845, 755)
+        algo.draw_text('Save', pygame.font.SysFont(None, 35), c.black, screen, 640, 760)
+
+        for single_color in clicked_button_list:
+            algo.draw_text("-" + single_color, pygame.font.SysFont(None, 35), c.black, screen, 50, y_pos)
+            y_pos += 25
+
+
+
+        horizontal = pygame.image.load('horizontal.png')
+        horizontal1 = pygame.transform.scale(horizontal, (300,300))
+        screen.blit(horizontal1, (250,50))
+
+        vertical = pygame.image.load('vertical.png')
+        vertical1 = pygame.transform.scale(vertical, (300, 300))
+        screen.blit(vertical1, (735, 50))
+
+        diagonal = pygame.image.load('diagonal.png')
+        diagonal1 = pygame.transform.scale(diagonal, (300, 300))
+        screen.blit(diagonal1, (1220, 50))
+
+        diagonal2 = pygame.image.load('diagonal2.png')
+        diagonal12 = pygame.transform.scale(diagonal2, (300, 300))
+        screen.blit(diagonal12, (250, 375))
+
+        circle = pygame.image.load('circle.png')
+        circle1 = pygame.transform.scale(circle,(300, 300))
+        screen.blit(circle1, (735, 375))
+
+        rect = pygame.image.load('rect.png')
+        rect1 = pygame.transform.scale(rect, (300, 300))
+        screen.blit(rect1, (1220, 375))
+
+        if button_complementary.collidepoint(mouse):
+            if click and len(input_hsv) == 1:
+                list_rgb = random_generate.complementary(input_hsv)
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+            if click and len(input_hsv) == 2:
+                list_rgb = random_generate.complementary(input_hsv)
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+            if click and len(input_hsv) == 3:
+                list_rgb = random_generate.complementary(input_hsv)
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+
+        if button_monochromatic.collidepoint(mouse):
+            if click and len(input_hsv) == 1:
+                list_rgb = random_generate.monocromatic(input_hsv)
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+
+        if button_analogous.collidepoint(mouse):
+            if click and len(input_hsv) == 1:
+                list_rgb = random_generate.analogous(input_hsv)
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+            if click and len(input_hsv) == 2:
+                list_rgb = random_generate.analogous_2(input_hsv)
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+
+        if button_split_complementary.collidepoint(mouse):
+            if click and len(input_hsv) == 1:
+                list_rgb = random_generate.split_complementary(input_hsv)
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+
+        if button_triadic.collidepoint(mouse):
+            if click and len(input_hsv) == 1:
+                list_rgb = random_generate.triadic(input_hsv)
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+            if click and len(input_hsv) == 2:
+                list_rgb = random_generate.triadic_2(input_hsv)
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+
+
+
+
+        if button_generate.collidepoint(mouse):
+            if click:
+                random_generate.random_horizontal(list_rgb)
+                random_generate.random_vertical(list_rgb)
+                random_generate.random_circle(list_rgb)
+                random_generate.random_rect(list_rgb)
+                random_generate.random_diagonal(list_rgb)
+        if button_like.collidepoint(mouse):
+            if click:
+                liked_color_combinations.append(list_rgb)
+                algo.draw_text('Saved!', pygame.font.SysFont(None, 50), c.black, screen, 800, 435)
+
+        pygame.display.update()
+        mainClock.tick(60)
 
 #voor pydoc generate
 if __name__ == '__main__':

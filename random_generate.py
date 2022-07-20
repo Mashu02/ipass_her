@@ -2,6 +2,9 @@ from PIL import Image, ImageDraw, ImageOps
 import random
 from math import hypot
 
+import algo
+
+
 def random_circle(colors):
     """random circle generate
 
@@ -133,3 +136,153 @@ def random_vertical(colors):
     border = (12, 12, 12, 12)
     test = ImageOps.expand(img, border=border, fill=color)
     test.save('vertical.png')
+
+#werkt met 1,2,3 input
+def complementary(hsv_colors_list):
+    lst = []
+    lst2 = []
+    for x in hsv_colors_list:
+        comp = (x[0] + 180)
+        if comp > 360:
+            comp -= 360
+        lst.append(x)
+        lst.append([comp,x[1],x[2]])
+    for x in lst:
+        lst2.append((algo.hsb_to_rgb(x)))
+
+    return lst2
+
+#print(complementary([[320, 100.0, 100.0]]))
+
+
+def monocromatic(hsv_colors_list):
+    lst = []
+    lst2 = []
+    for x in hsv_colors_list:
+        saturation = x[1]
+        if saturation <= 50:
+            saturation += 25
+        else:
+            saturation -= 25
+    lst.append(x)
+    lst.append([hsv_colors_list[0][0],saturation,hsv_colors_list[0][2]])
+    for x in lst:
+        lst2.append((algo.hsb_to_rgb(x)))
+    return lst2
+
+#print(monocromatic([[320, 49.0, 100.0]]))
+
+def analogous(hsv_colors_list):
+    lst = []
+    lst2 = []
+    for x in hsv_colors_list:
+        if len(hsv_colors_list) == 1:
+            l = x[0] - 30
+            r = x[0] + 30
+            if l < 0:
+                l += 360
+            if r > 360:
+                r -= 360
+            lst.append([l,x[1],x[2]])
+            lst.append(x)
+            lst.append([r,x[1],x[2]])
+            for hsv in lst:
+                rgb = algo.hsb_to_rgb(hsv)
+                lst2.append(rgb)
+        return lst2
+#print(analogous([[330, 49.0, 100.0]]))
+
+def analogous_2(hsv_colors_list):
+    lst = []
+    lst2 = []
+    input1 = hsv_colors_list[0]
+    input2 = (hsv_colors_list[1])
+
+    average = [(x + y) / 2 for x, y in zip(*hsv_colors_list)]
+    lst.append(input1)
+    lst.append(average)
+    lst.append(input2)
+
+    for hsv in lst:
+        rgb = algo.hsb_to_rgb(hsv)
+        lst2.append(rgb)
+    return lst2
+
+#print(analogous_2([[330, 49.0, 100.0],[100, 49.0, 100.0]]))
+
+
+#+complementary en dan +30 -30
+def split_complementary(hsv_colors_list):
+    lst = []
+    lst2 = []
+    for x in hsv_colors_list:
+        comp = (x[0] + 180)
+        if comp > 360:
+            comp -= 360
+        r_comp = comp + 30
+        l_comp = comp - 30
+
+        if l_comp <= 0:
+            l_comp += 360
+
+        if r_comp > 360:
+            r_comp -= 360
+
+        lst.append([r_comp,x[1],x[2]])
+        lst.append(x)
+        lst.append([l_comp,x[1],x[2]])
+
+    for x in lst:
+        lst2.append((algo.hsb_to_rgb(x)))
+
+    return lst2
+
+#print(split_complementary([[200,100,100]]))
+
+
+def triadic(hsv_colors_list):
+    lst = []
+    lst2 = []
+    for x in hsv_colors_list:
+        comp = (x[0] + 180)
+        if comp > 360:
+            comp -= 360
+        r_comp = comp + 60
+        l_comp = comp - 60
+
+        if l_comp <= 0:
+            l_comp += 360
+
+        if r_comp > 360:
+            r_comp -= 360
+
+        lst.append([r_comp,x[1],x[2]])
+        lst.append(x)
+        lst.append([l_comp,x[1],x[2]])
+
+    for x in lst:
+        lst2.append((algo.hsb_to_rgb(x)))
+    return lst2
+
+#print(triadic([[200,100,100]]))
+
+def triadic_2(hsv_colors_list):
+    lst = []
+    lst2 = []
+    input1 = hsv_colors_list[0]
+    input2 = (hsv_colors_list[1])
+
+    average = [(x + y) / 2 for x, y in zip(*hsv_colors_list)]
+    average[0] += 180
+    if average[0] > 360:
+        average[0] -= 360
+    lst.append(input1)
+    lst.append(average)
+    lst.append(input2)
+
+    for hsv in lst:
+        rgb = algo.hsb_to_rgb(hsv)
+        lst2.append(rgb)
+    return lst2
+
+print(triadic_2([[180,100,100],[1,100,100]]))
