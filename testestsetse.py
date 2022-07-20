@@ -1,9 +1,9 @@
-example_dict = {"mark": 13, "steve": 3, "bill": 6, "linus": 11, "aasd": 13}
+# create a list
+prime_numbers = [2, 3, 5, 7, 9, 9, 11]
 
-# now directly print the second largest
-# value in the dictionary
-print("Output1:", sorted(example_dict.values())[-2])
+# remove 9 from the list
+prime_numbers.remove(9)
 
-# More than 1 keys with maximum value are present
-example_dict = {"fb": 20, "whatsapp": 12, "instagram": 20, "oculus": 10, "whatsapp2": 12, "oculus2": 10}
-print("Output2:", sorted(set(example_dict.values()), reverse=True)[-2])
+
+# Updated prime_numbers List
+print('Updated List: ', prime_numbers)

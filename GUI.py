@@ -5,6 +5,7 @@ import buttons as b
 import algo
 from pygame.locals import *
 import random_generate
+from itertools import chain
 
 mainClock = pygame.time.Clock()
 pygame.init()
@@ -235,6 +236,7 @@ def main_menu_loop():
                     clicked_button_list_codes.append((255,105,180))
                     clicked_button_list.append("Pink")
 
+        #generate
         elif button_generate.collidepoint((mouse)):
             if click and len(clicked_button_list) != 0:
                 random_generate.random_horizontal(input_rgb)
@@ -243,6 +245,8 @@ def main_menu_loop():
                 random_generate.random_rect(input_rgb)
                 random_generate.random_diagonal(input_rgb)
                 generate()
+
+        #feedback
         elif button_feedback.collidepoint((mouse)):
             if click and len(clicked_button_list) != 0:
                 input_hsv = algo.list_to_color_hsv(clicked_button.values())
@@ -454,13 +458,27 @@ def feedback():
 
         if len(input_hsv) == 2:
             list_rgb = []
+            list_on_screen = []
             count = len(list_count)
             input_angle = (algo.calc_angle(input_hsv))
-            z = algo.get_higest_sim_in_hsv(input_angle)
+            list_cosine_scores = algo.sort_dictionary_value(input_angle)
+            cosine_score = round(list_cosine_scores[count], 2)
+            algo.draw_text(str(cosine_score) + " angle similarity", pygame.font.SysFont(None, 25), c.black, screen, 55, y_pos - 25)
+            z = algo.get_higest_sim_in_hsv_feedback(input_angle, list_cosine_scores[count])
             for x in z:
                 list_rgb.append(algo.hsb_to_rgb(x))
-            print(list_rgb)
 
+            for rgb_code in list_rgb:
+                keys = [k for k, v in c.color_with_rgb.items() if v == rgb_code]
+                list_on_screen.append(keys)
+
+            new_list_on_screen = list(chain.from_iterable(list_on_screen))
+            for single_color in new_list_on_screen:
+                algo.draw_text("-" + single_color, pygame.font.SysFont(None, 35), c.black, screen, 75, y_pos)
+                y_pos += 25
+            if button_next.collidepoint(mouse):
+                if click:
+                    list_count.append("1")
 
 
         # plaats de pngs, kijk dc voor hoe eruit zien
@@ -497,10 +515,6 @@ def feedback():
                 random_generate.random_rect(single_color_return_rgb)
                 random_generate.random_diagonal(single_color_return_rgb)
             if click and len(input_hsv) == 2:
-                list_rgb = []
-                z = algo.get_higest_sim_in_hsv(input_angle)
-                for x in z:
-                    list_rgb.append(algo.hsb_to_rgb(x))
                 random_generate.random_horizontal(list_rgb)
                 random_generate.random_vertical(list_rgb)
                 random_generate.random_circle(list_rgb)

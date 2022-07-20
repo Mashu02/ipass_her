@@ -355,26 +355,56 @@ def get_higest_sim_in_hsv(angle):
     data = data_clean(angle,whole_data_angles) #data is de angle
     data2 = data_index_check(angle, lst) #data2 zijn de 2 hsb waardes
     dictionary = (cosine_2(angle[0],data))
-    sort_dic = sorted(set(dictionary.values()))[-2]
-    keys = [k for k, v in dictionary.items() if v == sort_dic]
+
+    #getal tussen 0-1 van sim score
+    sorted_dic = sorted(set(dictionary.values()))[-2]
+    #kijk welke key die sim score heeft
+    keys = [k for k, v in dictionary.items() if v == sorted_dic]
+    #maakt binnen ook list
     lists = [list(x) for x in keys]
     index = data.index(lists)
     return data2[index]
 
-#purple pink
-#print(get_higest_sim_in_hsv([[30, 41.2, 49.8]]))
 
-#eerst laten werken voordat mooi maken, dit is voor beter
-def sort_dictionary(angle, count):
+def get_higest_sim_in_hsv_feedback(angle, cosine_waarde):
     lst = whole_data_in_hsv()
     whole_data_angles = angle_whole_data(lst)
     data = data_clean(angle,whole_data_angles) #data is de angle
     data2 = data_index_check(angle, lst) #data2 zijn de 2 hsb waardes
     dictionary = (cosine_2(angle[0],data))
+    #getal tussen 0-1 van sim score
+    #kijk welke key die sim score heeft
+    keys = [k for k, v in dictionary.items() if v == cosine_waarde]
+    #maakt binnen ook list
+    lists = [list(x) for x in keys]
+    index = data.index(lists)
+    return data2[index]
+
+#black brown
+#print(get_higest_sim_in_hsv_feedback([[0, 0.0, 50.2]], 0.8448290436470253))
+#0.9370117172209129
+#0.8474100196006801
+#0.8448290436470253
+
+
+
+def sort_dictionary_value(angle):
+    lst = whole_data_in_hsv()
+    whole_data_angles = angle_whole_data(lst)
+    data = data_clean(angle,whole_data_angles) #data is de angle
+    dictionary = (cosine_2(angle[0],data))
     sorted_d = dict(sorted(dictionary.items(), key=operator.itemgetter(1), reverse=True))
-    sorted_d.popitem()
-    print(sorted_d)
-#sort_dictionary([[30, 41.2, 49.8]], 1)
+    dictionary_in_list_sorted = list(sorted_d.values())
+    dictionary_in_list_sorted = list(dict.fromkeys(dictionary_in_list_sorted))
+    if 1 in dictionary_in_list_sorted:
+        dictionary_in_list_sorted.remove(1)
+    if 0 in dictionary_in_list_sorted:
+        dictionary_in_list_sorted.remove(0)
+    if 0.9999999999999999 in dictionary_in_list_sorted:
+        dictionary_in_list_sorted.remove(0.9999999999999999)
+    return dictionary_in_list_sorted
+
+print(sort_dictionary_value([[60, 10.2, 96.1]]))
 
 def get_higest_sim_in_hsv_2(angle):
     combos = []
